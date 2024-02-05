@@ -1,0 +1,124 @@
+database:
+  type: "sqlite"
+  mysql:
+    address: ""
+    database: ""
+    username: ""
+    password: ""
+  sqlite:
+    file: "database.db"
+
+redis:
+  host: ""
+  port: 6379
+  password: ""
+
+initial-time:
+  MENSAL: -1
+
+reset-time:
+  MENSAL: -1
+
+discord-webhook-link: ""
+
+remove-group-command: "lp user %player% parent remove %group%"
+add-group-command: "lp user %player% parent add %group%"
+
+ranks:
+  1:
+    display_name: "&7Prata I"
+    prefix: "&7[&fPrata I&7]"
+    points_needed: 0
+    group: 'pratai'
+    commands: []
+  2:
+    display_name: "&7Prata II"
+    prefix: "&7[&fPrata II&7]"
+    points_needed: 10
+    group: 'prataii'
+    commands:
+      - 'give %player% diamond 1'
+  3:
+    display_name: "&7Prata III"
+    prefix: "&7[&fPrata III&7]"
+    points_needed: 20
+    group: 'prataiii'
+    commands:
+      - 'give %player% diamond 2'
+
+# Sistema para premiar mensalmente o top player (1º, 2º e 3º)
+auto-reward:
+  # Placeholders: %player%
+  1:
+    - 'money give %player% 1'
+  2:
+    - 'money give %player% 1'
+  3:
+    - 'money give $player 1'
+
+reward-per-event:
+  Vote:
+    name: "Votar"
+    points: 1
+  DragonSlayer:
+    name: "Dragon Slayer"
+    points: 15
+  TitansBattle:
+    gladiador:
+      name: "Gladiador"
+      points: 15
+    killer:
+      name: "Killer"
+      points: 10
+  yEvents:
+    BOLAO:
+      name: "BolÃ£o"
+      points: 3
+    CORRIDA:
+      name: "Corrida"
+      points: 3
+    FASTCLICK:
+      name: "FastClick"
+      points: 3
+    FIGHT:
+      name: "Fight"
+      points: 3
+    KILLER:
+      name: "Killer"
+      points: 3
+    LABIRINTO:
+      name: "Labirinto"
+      points: 3
+    LOTERIA:
+      name: "Loteria"
+      points: 3
+    MATEMATICA:
+      name: "MatemÃ¡tica"
+      points: 3
+    PAINTBALL:
+      name: "Paintball"
+      points: 3
+    PALAVRA:
+      name: "Palavra"
+      points: 3
+    PARKOUR:
+      name: "Parkour"
+      points: 3
+    QUIZ:
+      name: "Quiz"
+      points: 3
+    SPLEEF:
+      name: "Spleef"
+      points: 3
+    SUMO:
+      name: "Sumo"
+      points: 3
+    RESTAUM:
+      name: "RestaUm"
+      points: 3
+    FASTCRAFT:
+      name: "FastCraft"
+      points: 3
+
+
+top-locations: []

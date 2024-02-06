@@ -51,8 +51,8 @@ dependencies {
     implementation("com.github.HenryFabio:inventory-api:main-SNAPSHOT")
     implementation("com.github.HenryFabio:sql-provider:9561f20fd2")
 
-    compileOnly("org.projectlombok:lombok:1.18.12")
-    annotationProcessor("org.projectlombok:lombok:1.18.12")
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
 }
 
 java {

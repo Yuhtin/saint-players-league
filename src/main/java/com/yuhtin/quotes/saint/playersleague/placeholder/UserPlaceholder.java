@@ -11,7 +11,7 @@ public class UserPlaceholder extends PlaceholderExpansion {
 
     @Override
     public String getIdentifier() {
-        return "players-league";
+        return "playersleagueuser";
     }
 
     @Override

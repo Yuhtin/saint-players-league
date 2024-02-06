@@ -3,6 +3,7 @@ package com.yuhtin.quotes.saint.playersleague.repository.repository;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.yuhtin.quotes.saint.playersleague.model.LeagueUser;
 import com.yuhtin.quotes.saint.playersleague.repository.adapters.LeagueUserAdapter;
+import com.yuhtin.quotes.saint.playersleague.repository.adapters.LeagueUsernameAdapter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -60,4 +61,11 @@ public final class UserRepository {
         );
     }
 
+    public Set<String> orderByPoints() {
+        return sqlExecutor.resultManyQuery(
+                "SELECT * FROM " + TABLE + " ORDER BY points DESC LIMIT 14",
+                statement -> {},
+                LeagueUsernameAdapter.class
+        );
+    }
 }

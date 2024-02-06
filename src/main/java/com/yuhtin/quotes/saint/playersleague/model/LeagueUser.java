@@ -27,6 +27,10 @@ public class LeagueUser {
         Events.call(new UserPointsChangedEvent(Bukkit.getPlayerExact(username), this, oldPoints, points));
     }
 
+    public void setPointsSilent(int points) {
+        this.points = points;
+    }
+
     public void addPoints(int points) {
         setPoints(this.points + points);
     }

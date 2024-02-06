@@ -45,7 +45,7 @@ public class PointsCommand implements TerminableModule {
                     }, () -> {
                         context.reply("&cUsuário não encontrado.");
                     });
-                }).registerAndBind(consumer, "pontos");
+                }).registerAndBind(consumer, "ligapontosadmin");
     }
 
 }

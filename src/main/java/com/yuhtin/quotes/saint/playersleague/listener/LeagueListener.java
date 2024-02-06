@@ -1,20 +1,21 @@
 package com.yuhtin.quotes.saint.playersleague.listener;
 
 import com.yuhtin.quotes.saint.playersleague.PlayersLeaguePlugin;
-import com.yuhtin.quotes.saint.playersleague.cache.RankCache;
-import com.yuhtin.quotes.saint.playersleague.controller.UserController;
 import com.yuhtin.quotes.saint.playersleague.event.RankChangeEvent;
 import com.yuhtin.quotes.saint.playersleague.event.UserPointsChangedEvent;
 import com.yuhtin.quotes.saint.playersleague.model.LeagueRank;
+import com.yuhtin.quotes.saint.playersleague.util.DiscordWebhook;
 import lombok.AllArgsConstructor;
 import me.lucko.helper.Events;
 import me.lucko.helper.terminable.TerminableConsumer;
 import me.lucko.helper.terminable.module.TerminableModule;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.io.IOException;
 
 @AllArgsConstructor
 public class LeagueListener implements TerminableModule {
@@ -79,7 +80,28 @@ public class LeagueListener implements TerminableModule {
                         else event.getUser().getCommandsNotExecuted().add(formattedCommand);
                     });
 
+                    sendAnnounce(username, newRank.getPrefix());
                 }).bindWith(consumer);
+
+    }
+
+    private void sendAnnounce(String username, String rankPrefix) {
+        DiscordWebhook discordWebhook = new DiscordWebhook(instance.getConfig().getString("discord-webhook-link"));
+        DiscordWebhook.EmbedObject embedObject = new DiscordWebhook.EmbedObject();
+
+        embedObject.setTitle("SAINT LIGA - " + username + " <a:1Espada:1149729957434634403>");
+        embedObject.setDescription("O jogador " + username + " evoluiu de rank.\nNovo rank: " + rankPrefix);
+        embedObject.setFooter("Que a vitória seja dos mais fortes! Rede Saint", "");
+        embedObject.setColor(Color.RED);
+
+        discordWebhook.addEmbed(embedObject);
+
+        try {
+            discordWebhook.execute();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            instance.getLogger().severe("[Webhook] An error occurred while sending discord webhook message.");
+        }
 
     }
 }

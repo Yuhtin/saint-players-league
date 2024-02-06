@@ -1,7 +1,6 @@
 package com.yuhtin.quotes.saint.playersleague.redis;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter

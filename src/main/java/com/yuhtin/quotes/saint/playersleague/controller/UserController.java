@@ -6,17 +6,42 @@ import com.yuhtin.quotes.saint.playersleague.model.LeagueUser;
 import com.yuhtin.quotes.saint.playersleague.redis.RedisService;
 import com.yuhtin.quotes.saint.playersleague.redis.callback.CacheCallback;
 import com.yuhtin.quotes.saint.playersleague.repository.repository.UserRepository;
+import lombok.Getter;
+import me.lucko.helper.Schedulers;
+import me.lucko.helper.promise.Promise;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
 public class UserController {
 
     private final UserCache cache;
     private final UserRepository repository;
 
+    private List<String> ranking = new ArrayList<>();
+
     public UserController(RedisService redisService, SQLExecutor executor) {
         this.cache = new UserCache(redisService);
         this.repository = new UserRepository(executor);
         this.repository.createTable();
+    }
+
+    public LeagueUser getByPosition(int position) {
+        if (ranking.size() <= position) return null;
+
+        String tag = ranking.get(position);
+        LeagueUser leagueUser = new LeagueUser(tag);
+        leagueUser.setPointsSilent(getPoints(tag));
+
+        return leagueUser;
+    }
+
+    public Promise<Void> refresh() {
+        return Schedulers.sync().run(() -> {
+            ranking = new ArrayList<>(repository.orderByPoints());
+        });
     }
 
     public int getPoints(String username) {

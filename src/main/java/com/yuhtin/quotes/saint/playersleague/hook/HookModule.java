@@ -1,7 +1,6 @@
 package com.yuhtin.quotes.saint.playersleague.hook;
 
 import com.google.common.reflect.ClassPath;
-import com.yuhtin.quotes.saint.leagues.LeaguesPlugin;
 import com.yuhtin.quotes.saint.playersleague.PlayersLeaguePlugin;
 import lombok.AllArgsConstructor;
 import lombok.val;

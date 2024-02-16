@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="https://github.com/Yuhtin">Yuhtin</a>
@@ -44,16 +45,23 @@ public class RankingView extends PagedInventory {
     protected List<InventoryItemSupplier> createPageItems(@NotNull PagedViewer viewer) {
         List<InventoryItemSupplier> items = new ArrayList<>();
 
-        int position = 0;
+        int position = 1;
         for (String user : instance.getController().getRanking()) {
             int finalPosition = position;
             items.add(() -> {
                 int points = instance.getController().getPoints(user);
                 return InventoryItem.of(new ItemBuilder(user)
-                        .name("&a" + user + " &6(#" + finalPosition + ")")
-                        .setLore(
-                                "&fPontos: &e" + points,
-                                "&fRank: &e" + instance.getRankCache().getByPoints(points).getPrefix()
+                        .name(instance.getConfig().getString("view.itemName", "")
+                                .replace("%player%", user)
+                                .replace("%position%", String.valueOf(finalPosition)))
+                        .setLore(instance.getConfig().getStringList("view.lore")
+                                .stream()
+                                .map(line -> line
+                                        .replace("%player%", user)
+                                        .replace("%position%", String.valueOf(finalPosition))
+                                        .replace("%points%", String.valueOf(points))
+                                        .replace("%rank%", instance.getRankCache().getByPoints(points).getPrefix())
+                                ).collect(Collectors.toList())
                         ).wrap());
             });
 

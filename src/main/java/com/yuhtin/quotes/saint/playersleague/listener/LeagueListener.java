@@ -89,10 +89,12 @@ public class LeagueListener implements TerminableModule {
         DiscordWebhook discordWebhook = new DiscordWebhook(instance.getConfig().getString("discord-webhook-link"));
         DiscordWebhook.EmbedObject embedObject = new DiscordWebhook.EmbedObject();
 
-        embedObject.setTitle("SAINT LIGA - " + username + " <a:1Espada:1149729957434634403>");
-        embedObject.setDescription("O jogador " + username + " evoluiu de rank.\nNovo rank: " + rankPrefix);
-        embedObject.setFooter("Que a vitória seja dos mais fortes! Rede Saint", "");
-        embedObject.setColor(Color.RED);
+        embedObject.setTitle(instance.getConfig().getString("webhook-title"));
+        embedObject.setDescription(instance.getConfig().getString("webhook-description")
+                .replace("%player%", username)
+                .replace("%rank%", rankPrefix));
+        embedObject.setFooter(instance.getConfig().getString("webhook-footer"), instance.getConfig().getString("webhook-footer-icon"));
+        embedObject.setColor(Color.getColor(instance.getConfig().getString("webhook-color")));
 
         discordWebhook.addEmbed(embedObject);
 

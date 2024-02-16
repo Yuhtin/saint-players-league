@@ -20,6 +20,17 @@ reset-time:
   MENSAL: -1
 
 discord-webhook-link: ""
+webhook-title: "SAINT LIGA - %player% <a:1Espada:1149729957434634403>"
+webhook-description: "O jogador %player% evoluiu de rank.\nNovo rank: %rank%"
+webhook-footer: "Que a vitória seja dos mais fortes! Rede Saint"
+webhook-footer-image: ""
+webhook-color: "16711680"
+
+view:
+  itemName: "&a%player% &6(#%position%)"
+  lore:
+    - '&fRank: &e%rank%'
+    - '&fPontos: &e%points%'
 
 remove-group-command: "lp user %player% parent remove %group%"
 add-group-command: "lp user %player% parent add %group%"

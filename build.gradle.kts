@@ -40,14 +40,12 @@ dependencies {
     compileOnly("com.github.RoinujNosde:TitansBattle:6.2.0")
     compileOnly("com.github.NuVotifier:NuVotifier:2.7.2")
 
-    compileOnly("redis.clients:jedis:3.6.1")
-    compileOnly("com.github.ben-manes.caffeine:caffeine:3.0.4")
-
     compileOnly("com.mojang:authlib:1.5.25")
 
     compileOnly(fileTree("/libs"))
 
-
+    implementation("redis.clients:jedis:3.6.1")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.0.4")
     implementation("com.github.HenryFabio:inventory-api:main-SNAPSHOT")
     implementation("com.github.HenryFabio:sql-provider:9561f20fd2")
 
@@ -68,6 +66,8 @@ tasks.withType<ShadowJar> {
     relocate("com.henryfabio.minecraft.inventoryapi", "com.yuhtin.quotes.saint.leagues.libs.inventoryapi")
     relocate("com.henryfabio.sqlprovider", "com.yuhtin.quotes.saint.leagues.libs.sqlprovider")
     relocate("com.zaxxer.hikari", "com.yuhtin.quotes.saint.leagues.libs.hikari")
+    relocate("com.github.benmanes.caffeine", "com.yuhtin.quotes.saint.leagues.libs.caffeine")
+    relocate("redis.clients.jedis", "com.yuhtin.quotes.saint.leagues.libs.jedis")
 
     println("Shadowing ${project.name} to ${destinationDirectory.get()}")
 }

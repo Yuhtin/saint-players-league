@@ -12,19 +12,19 @@ import java.util.Set;
 /**
  * @author <a href="https://github.com/Yuhtin">Yuhtin</a>
  */
+@Getter
 @RequiredArgsConstructor
 public final class UserRepository {
 
-    private static final String TABLE = "leagues_user_data";
+    private static final String TABLE = "playerleague_user_data";
 
-    @Getter
     private final SQLExecutor sqlExecutor;
 
     public void createTable() {
         sqlExecutor.updateQuery("CREATE TABLE IF NOT EXISTS " + TABLE + "(" +
                 "username CHAR(36) NOT NULL," +
                 "points INT NOT NULL," +
-                "rank_id INT NOT NULL," +
+                "rank_id INT NOT NULL" +
                 ");"
         );
     }

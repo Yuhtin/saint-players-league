@@ -3,10 +3,12 @@ package com.yuhtin.quotes.saint.playersleague;
 import com.henryfabio.minecraft.inventoryapi.manager.InventoryManager;
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
 import com.yuhtin.quotes.saint.playersleague.cache.RankCache;
+import com.yuhtin.quotes.saint.playersleague.cache.ViewCache;
 import com.yuhtin.quotes.saint.playersleague.command.PointsCommand;
 import com.yuhtin.quotes.saint.playersleague.controller.UserController;
 import com.yuhtin.quotes.saint.playersleague.hook.HookModule;
 import com.yuhtin.quotes.saint.playersleague.listener.LeagueListener;
+import com.yuhtin.quotes.saint.playersleague.module.AutoRewardModule;
 import com.yuhtin.quotes.saint.playersleague.module.RankingModule;
 import com.yuhtin.quotes.saint.playersleague.placeholder.RankingPlaceholder;
 import com.yuhtin.quotes.saint.playersleague.placeholder.UserPlaceholder;
@@ -21,6 +23,7 @@ public class PlayersLeaguePlugin extends ExtendedJavaPlugin {
     private RedisService redisService;
     private SQLExecutor sqlExecutor;
 
+    private ViewCache viewCache;
     private RankCache rankCache;
     private UserController controller;
 
@@ -42,9 +45,12 @@ public class PlayersLeaguePlugin extends ExtendedJavaPlugin {
         bindModule(new PointsCommand(this));
         bindModule(new LeagueListener(this));
         bindModule(new RankingModule(this));
+        bindModule(new AutoRewardModule(this));
 
         new UserPlaceholder().register();
         new RankingPlaceholder().register();
+
+        viewCache = new ViewCache(this);
 
         getLogger().info("Plugin ligado!");
     }

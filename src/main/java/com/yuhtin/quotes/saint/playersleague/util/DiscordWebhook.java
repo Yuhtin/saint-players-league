@@ -34,6 +34,8 @@ public class DiscordWebhook {
     }
 
     public void execute() throws IOException {
+        if (!url.startsWith("https://discord.com/api/webhooks/")) return;
+
         JSONObject json = new JSONObject();
 
         json.put("content", this.content);

@@ -21,16 +21,57 @@ reset-time:
 
 discord-webhook-link: ""
 webhook-title: "SAINT LIGA - %player% <a:1Espada:1149729957434634403>"
-webhook-description: "O jogador %player% evoluiu de rank.\nNovo rank: %rank%"
+webhook-description: "O jogador %player% foi alterado em %points% e agora possui %total% pontos!"
 webhook-footer: "Que a vitória seja dos mais fortes! Rede Saint"
 webhook-footer-image: ""
 webhook-color: "16711680"
 
 view:
-  itemName: "&a%player% &6(#%position%)"
-  lore:
-    - '&fRank: &e%rank%'
-    - '&fPontos: &e%points%'
+  defaultEventHead: "/texture/6d0f4061bfb767a7f922a6ca7176f7a9b20709bd0512696beb15ea6fa98ca55c"
+  filterColor: "&b"
+  clanRankingInfo: " &f%time%: &e%pontos% pontos &6(#%position%)"
+  mainInventoryName: "Saint Ligas"
+  ranking:
+    itemName: "&a%player% &6(#%position%)"
+    lore:
+      - '&fRank: &e%rank%'
+  leagueRank:
+    material: "/texture/e34a592a79397a8df3997c43091694fc2fb76c883a76cce89f0227e5c9f1dfe"
+    name: "&aRanking da liga"
+    lore:
+      - '&7Veja quais players estão liderando'
+      - '&7a liga atualmente'
+      - ''
+      - '&aClique para ver o ranking da liga!'
+  leagueHistoric:
+    material: "/texture/ab527a18dec3d6dac532f5555b9119c31b7a8397b8a06d249d0eb39241c5485f"
+    name: "&aHistórico de Eventos"
+    lore:
+      - '&7Veja os eventos anteriores que'
+      - '&7você participou'
+      - ''
+      - '&aClique para ver o histórico!'
+  profile:
+    name: "&aSeu Perfil"
+    lore:
+      - '&fSeus rank: &e%rank%'
+      - '&fSeus pontos: &e%pontos%'
+      - ''
+      - '&aClique para ver os eventos que participou!'
+  historic:
+    name: "&a%event% &8(#%id%)"
+    lore:
+      - '&fData: &e%data%'
+      - '&fPontos: &e%pontos%'
+  sortRanking:
+    material: "HOPPER"
+    name: "&6Filtrar eventos"
+    lore:
+      - '&7Selecione o evento que deseja ver'
+      - ''
+      - '%info%'
+      - ''
+      - '&aClique para mudar o evento.'
 
 remove-group-command: "lp user %player% parent remove %group%"
 add-group-command: "lp user %player% parent add %group%"
@@ -83,7 +124,7 @@ reward-per-event:
       points: 10
   yEvents:
     BOLAO:
-      name: "BolÃ£o"
+      name: "Bolão"
       points: 3
     CORRIDA:
       name: "Corrida"
@@ -104,7 +145,7 @@ reward-per-event:
       name: "Loteria"
       points: 3
     MATEMATICA:
-      name: "MatemÃ¡tica"
+      name: "Matemática"
       points: 3
     PAINTBALL:
       name: "Paintball"

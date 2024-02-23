@@ -5,6 +5,7 @@ import com.yuhtin.quotes.saint.playersleague.cache.UserCache;
 import com.yuhtin.quotes.saint.playersleague.model.LeagueUser;
 import com.yuhtin.quotes.saint.playersleague.redis.RedisService;
 import com.yuhtin.quotes.saint.playersleague.redis.callback.CacheCallback;
+import com.yuhtin.quotes.saint.playersleague.repository.repository.EventRepository;
 import com.yuhtin.quotes.saint.playersleague.repository.repository.UserRepository;
 import lombok.Getter;
 import me.lucko.helper.Schedulers;
@@ -19,28 +20,33 @@ public class UserController {
 
     private final UserCache cache;
     private final UserRepository repository;
+    private final EventRepository eventRepository;
 
-    private List<String> ranking = new ArrayList<>();
+    private List<LeagueUser> ranking = new ArrayList<>();
 
     public UserController(RedisService redisService, SQLExecutor executor) {
         this.cache = new UserCache(redisService);
         this.repository = new UserRepository(executor);
+        this.eventRepository = new EventRepository(executor);
+
         this.repository.createTable();
+        this.eventRepository.createTable();
+    }
+
+    public void resetPoints() {
+        repository.recreateTable();
+        eventRepository.recreateTable();
+        cache.clear();
     }
 
     public LeagueUser getByPosition(int position) {
         if (ranking.size() <= position) return null;
-
-        String tag = ranking.get(position);
-        LeagueUser leagueUser = new LeagueUser(tag);
-        leagueUser.setPointsSilent(getPoints(tag));
-
-        return leagueUser;
+        return ranking.get(position);
     }
 
     public Promise<Void> refresh() {
         return Schedulers.sync().run(() -> {
-            ranking = new ArrayList<>(repository.orderByPoints());
+            ranking = new ArrayList<>(repository.orderByPoints(14));
         });
     }
 

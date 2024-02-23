@@ -2,7 +2,6 @@ package com.yuhtin.quotes.saint.playersleague.module;
 
 import com.yuhtin.quotes.saint.playersleague.PlayersLeaguePlugin;
 import com.yuhtin.quotes.saint.playersleague.model.LeagueUser;
-import com.yuhtin.quotes.saint.playersleague.ranking.RankingView;
 import eu.decentsoftware.holograms.api.DHAPI;
 import eu.decentsoftware.holograms.api.DecentHologramsAPI;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
@@ -74,29 +73,16 @@ public class RankingModule implements TerminableModule {
                 .handler(event -> event.setCancelled(true))
                 .bindWith(consumer);
 
-        RankingView rankingView = new RankingView(PlayersLeaguePlugin.getInstance()).init();
-
-        Commands.create()
-                .assertPlayer()
-                .handler(context -> {
-                    rankingView.openInventory(context.sender());
-                }).registerAndBind(consumer, "ligaplayer");
-
         Commands.create()
                 .assertPlayer()
                 .assertPermission("league.admin")
-                .assertUsage("<posição>")
+                .assertUsage("<posição/reload>")
                 .handler(context -> {
                     String action = context.arg(0).parse(String.class).orElse(null);
                     if (action != null && action.equalsIgnoreCase("reload")) {
                         refreshRanking();
 
                         context.reply("&aRanking recarregado!");
-                        return;
-                    }
-
-                    if (!context.arg(1).isPresent()) {
-                        context.reply("&cVocê deve especificar o intervalo de tempo! &8(Mensal/Trimestral)");
                         return;
                     }
 

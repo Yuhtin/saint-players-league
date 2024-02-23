@@ -2,6 +2,8 @@ package com.yuhtin.quotes.saint.playersleague.hook.impl;
 
 import com.yuhtin.quotes.saint.playersleague.PlayersLeaguePlugin;
 import com.yuhtin.quotes.saint.playersleague.hook.LeagueEventHook;
+import com.yuhtin.quotes.saint.playersleague.model.LeagueEvent;
+import com.yuhtin.quotes.saint.playersleague.model.LeagueEventType;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import me.lucko.helper.Events;
@@ -42,10 +44,20 @@ public class TitansBattleHook extends LeagueEventHook {
                         return;
                     }
 
-//                    String name = instance.getConfig().getString(path + ".name", "TitansBattle");
+                    String name = instance.getConfig().getString(path + ".name", "TitansBattle");
 
                     for (Warrior player : players) {
                         instance.getController().addPoints(player.getName(), points);
+
+                        LeagueEvent leagueEvent = LeagueEvent.builder()
+                                .name(name)
+                                .playerName(player.getName())
+                                .leagueEventType(LeagueEventType.WIN_CLAN_EVENTS)
+                                .points(points)
+                                .build();
+
+                        instance.getController().getEventRepository().insert(leagueEvent);
+
                         instance.getLogger().info("[TitansBattle] Vitória de " + player.getName() + " (+ " + points + " pontos)");
                     }
                 }).bindWith(consumer);

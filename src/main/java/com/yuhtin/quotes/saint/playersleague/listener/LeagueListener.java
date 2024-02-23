@@ -39,6 +39,8 @@ public class LeagueListener implements TerminableModule {
                     LeagueRank newRank = instance.getRankCache().getByPoints(event.getNewPoints());
                     LeagueRank oldRank = instance.getRankCache().getByPoints(event.getOldPoints());
 
+                    sendAnnounce(event.getUser().getUsername(), event.getNewPoints() - event.getOldPoints(), event.getNewPoints());
+
                     if (newRank == oldRank) return;
 
                     Events.call(new RankChangeEvent(event.getPlayer(), event.getUser(), oldRank, newRank));
@@ -79,20 +81,20 @@ public class LeagueListener implements TerminableModule {
                         if (event.getPlayer() != null) Bukkit.dispatchCommand(event.getPlayer(), formattedCommand);
                         else event.getUser().getCommandsNotExecuted().add(formattedCommand);
                     });
-
-                    sendAnnounce(username, newRank.getPrefix());
                 }).bindWith(consumer);
 
     }
 
-    private void sendAnnounce(String username, String rankPrefix) {
+    private void sendAnnounce(String username, int points, int totalPoints) {
         DiscordWebhook discordWebhook = new DiscordWebhook(instance.getConfig().getString("discord-webhook-link"));
         DiscordWebhook.EmbedObject embedObject = new DiscordWebhook.EmbedObject();
 
-        embedObject.setTitle(instance.getConfig().getString("webhook-title"));
+        embedObject.setTitle(instance.getConfig().getString("webhook-title").replace("%player%", username));
         embedObject.setDescription(instance.getConfig().getString("webhook-description")
                 .replace("%player%", username)
-                .replace("%rank%", rankPrefix));
+                .replace("%points%", points > 0 ? "+" + points : String.valueOf(points))
+                .replace("%total%", String.valueOf(totalPoints)));
+
         embedObject.setFooter(instance.getConfig().getString("webhook-footer"), instance.getConfig().getString("webhook-footer-icon"));
         embedObject.setColor(Color.getColor(instance.getConfig().getString("webhook-color")));
 

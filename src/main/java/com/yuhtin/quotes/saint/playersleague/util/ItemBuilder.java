@@ -1,5 +1,6 @@
 package com.yuhtin.quotes.saint.playersleague.util;
 
+import me.lucko.helper.text3.Text;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -11,12 +12,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static me.lucko.helper.text3.Text.colorize;
 
 public class ItemBuilder {
-
-    private static final ItemStack SKULL_ITEM = new ItemStack(Material.PLAYER_HEAD);
 
     private final ItemStack item;
 
@@ -33,7 +33,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder(String link) {
-        item = SKULL_ITEM.clone();
+        item = new ItemStack(Material.PLAYER_HEAD);
 
         if (!link.startsWith("/texture/")) {
             SkullMeta meta = (SkullMeta) item.getItemMeta();
@@ -63,21 +63,20 @@ public class ItemBuilder {
         return changeItemMeta(it -> it.setDisplayName(colorize(name)));
     }
 
-    public ItemBuilder setLore(String... lore) {
+    public ItemBuilder setLore(String... l) {
         return changeItemMeta(it -> {
-            it.setLore(new ArrayList<>());
-            for (String s : lore) {
-                it.getLore().add(colorize(s));
+            List<String> lore = new ArrayList<>();
+            for (String s : l) {
+                lore.add(colorize(s));
             }
+
+            it.setLore(lore);
         });
     }
 
     public ItemBuilder setLore(List<String> lore) {
         return changeItemMeta(it -> {
-            it.setLore(new ArrayList<>());
-            for (String s : lore) {
-                it.getLore().add(colorize(s));
-            }
+            it.setLore(new ArrayList<>(lore).stream().map(Text::colorize).collect(Collectors.toList()));
         });
     }
 

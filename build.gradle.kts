@@ -14,7 +14,7 @@ bukkit {
     version = "${project.version}"
     authors = listOf("Yuhtin")
     apiVersion = "1.13"
-    depend = listOf("helper", "SimpleClans", "DecentHolograms", "PlaceholderAPI")
+    depend = listOf("helper", "DecentHolograms", "PlaceholderAPI")
     softDepend = listOf("DragonSlayer", "TitansBattle", "yEventos", "NuVotifier")
 }
 
@@ -36,7 +36,6 @@ dependencies {
     compileOnly("me.lucko:helper:5.6.10")
     compileOnly("com.github.PlaceholderAPI:PlaceholderAPI:2.10.9")
     compileOnly("com.github.decentsoftware-eu:decentholograms:2.8.3")
-    compileOnly("net.sacredlabyrinth.phaed.simpleclans:SimpleClans:2.15.2")
     compileOnly("com.github.RoinujNosde:TitansBattle:6.2.0")
     compileOnly("com.github.NuVotifier:NuVotifier:2.7.2")
 

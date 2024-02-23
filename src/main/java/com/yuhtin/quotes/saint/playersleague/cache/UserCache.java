@@ -34,4 +34,7 @@ public class UserCache {
         return cache.getDao();
     }
 
+    public void clear() {
+        cache.clear();
+    }
 }

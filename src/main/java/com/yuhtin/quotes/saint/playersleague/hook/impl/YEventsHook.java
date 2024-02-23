@@ -4,6 +4,8 @@ import com.ystoreplugins.yeventos.event.EventType;
 import com.ystoreplugins.yeventos.event.PlayerWinEventEvent;
 import com.yuhtin.quotes.saint.playersleague.PlayersLeaguePlugin;
 import com.yuhtin.quotes.saint.playersleague.hook.LeagueEventHook;
+import com.yuhtin.quotes.saint.playersleague.model.LeagueEvent;
+import com.yuhtin.quotes.saint.playersleague.model.LeagueEventType;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import me.lucko.helper.Events;
@@ -43,6 +45,15 @@ public class YEventsHook extends LeagueEventHook {
                     }
 
                     String eventName = instance.getConfig().getString(path + ".name", eventType.name());
+
+                    LeagueEvent leagueEvent = LeagueEvent.builder()
+                            .name(eventName)
+                            .playerName(player.getName())
+                            .leagueEventType(LeagueEventType.WIN_EVENTS)
+                            .points(points)
+                            .build();
+
+                    instance.getController().getEventRepository().insert(leagueEvent);
 
                     instance.getController().addPoints(player.getName(), points);
                     instance.getLogger().info("[yEventos] [" + eventName + "] Vitória de " + player.getName() + " (+ " + points + " pontos)");

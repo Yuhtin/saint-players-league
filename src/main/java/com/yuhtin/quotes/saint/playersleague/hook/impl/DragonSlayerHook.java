@@ -2,6 +2,8 @@ package com.yuhtin.quotes.saint.playersleague.hook.impl;
 
 import com.yuhtin.quotes.saint.playersleague.PlayersLeaguePlugin;
 import com.yuhtin.quotes.saint.playersleague.hook.LeagueEventHook;
+import com.yuhtin.quotes.saint.playersleague.model.LeagueEvent;
+import com.yuhtin.quotes.saint.playersleague.model.LeagueEventType;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import me.lucko.helper.Commands;
@@ -41,7 +43,16 @@ public class DragonSlayerHook extends LeagueEventHook {
                         return;
                     }
 
-//                    String eventName = instance.getConfig().getString(path + ".name", "DragonSlayer");
+                    String eventName = instance.getConfig().getString(path + ".name", "DragonSlayer");
+
+                    LeagueEvent leagueEvent = LeagueEvent.builder()
+                            .name(eventName)
+                            .playerName(player.getName())
+                            .leagueEventType(LeagueEventType.KILL_DRAGON)
+                            .points(points)
+                            .build();
+
+                    instance.getController().getEventRepository().insert(leagueEvent);
 
                     instance.getController().addPoints(player.getName(), points);
                     instance.getLogger().info("[DragonSlayer] Vitória de " + player.getName() + " (+ " + points + " pontos)");

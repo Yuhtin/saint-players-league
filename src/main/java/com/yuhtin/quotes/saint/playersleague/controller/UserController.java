@@ -1,7 +1,9 @@
 package com.yuhtin.quotes.saint.playersleague.controller;
 
 import com.henryfabio.sqlprovider.executor.SQLExecutor;
+import com.yuhtin.quotes.saint.playersleague.PlayersLeaguePlugin;
 import com.yuhtin.quotes.saint.playersleague.cache.UserCache;
+import com.yuhtin.quotes.saint.playersleague.model.LeagueRank;
 import com.yuhtin.quotes.saint.playersleague.model.LeagueUser;
 import com.yuhtin.quotes.saint.playersleague.redis.RedisService;
 import com.yuhtin.quotes.saint.playersleague.redis.callback.CacheCallback;
@@ -69,6 +71,11 @@ public class UserController {
         if (value.isPresent()) return value;
 
         LeagueUser user = new LeagueUser(username);
+        LeagueRank rank = PlayersLeaguePlugin.getInstance().getRankCache().get(1);
+
+        user.setRankId(1);
+        user.setRankPrefix(rank.getPrefix());
+
         cache.insert(user);
         repository.insert(user);
 
@@ -78,7 +85,18 @@ public class UserController {
     @NotNull
     public CacheCallback<LeagueUser> findIfPresent(String username) {
         CacheCallback<LeagueUser> user = cache.get(username);
-        if (user != null) return user;
+        if (user != null) {
+            user.ifPresent(leagueUser -> {
+                if (leagueUser.getRankPrefix() == null || leagueUser.getRankId() == 0) {
+                    LeagueRank rank = PlayersLeaguePlugin.getInstance().getRankCache().getByPoints(leagueUser.getPoints());
+
+                    leagueUser.setRankId(rank.getId());
+                    leagueUser.setRankPrefix(rank.getPrefix());
+                }
+            });
+
+            return user;
+        }
 
         LeagueUser userLoaded = repository.find(username);
         if (userLoaded != null) {
